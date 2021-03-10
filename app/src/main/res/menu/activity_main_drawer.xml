@@ -10,7 +10,7 @@
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_mycard"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_mycard"
             android:title="@string/menu_mycard" />
         <item
             android:id="@+id/nav_settings"
