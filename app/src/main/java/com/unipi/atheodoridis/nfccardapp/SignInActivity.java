@@ -24,7 +24,7 @@ public class SignInActivity extends AppCompatActivity {
         editText5 = findViewById(R.id.editText5);
     }
     public void signIn(View view){
-        Intent intent = new Intent(this,GetMyCard.class);
+        Intent intent = new Intent(this,ProfileActivity.class);
         startActivity(intent);
     }
 }

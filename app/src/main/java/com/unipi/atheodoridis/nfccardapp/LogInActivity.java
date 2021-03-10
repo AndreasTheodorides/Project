@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity {
 EditText editText1,editText2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,8 @@ EditText editText1,editText2;
         editText2 = findViewById(R.id.editText2);
     }
     public void Login(View view){
-
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
     }
 
     public void Signin(View view){
