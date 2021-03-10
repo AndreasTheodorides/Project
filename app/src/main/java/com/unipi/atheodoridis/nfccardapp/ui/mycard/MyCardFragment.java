@@ -1,4 +1,4 @@
-package com.unipi.atheodoridis.nfccardapp.ui.slideshow;
+package com.unipi.atheodoridis.nfccardapp.ui.mycard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.unipi.atheodoridis.nfccardapp.R;
 
-public class SlideshowFragment extends Fragment {
+public class MyCardFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private MyCardViewModel myCardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        myCardViewModel =
+                new ViewModelProvider(this).get(MyCardViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_mycard, container, false);
+        final TextView textView = root.findViewById(R.id.text_mycard);
+        myCardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

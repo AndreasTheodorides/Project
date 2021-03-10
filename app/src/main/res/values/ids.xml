@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nav_settings" type="id" />
+    <item name="nav_mycard" type="id" />
+    <item name="text_settings" type="id" />
+    <item name="text_mycard" type="id" />
+</resources>
