@@ -12,7 +12,7 @@ EditText editText1,editText2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_log_in);
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);
     }
