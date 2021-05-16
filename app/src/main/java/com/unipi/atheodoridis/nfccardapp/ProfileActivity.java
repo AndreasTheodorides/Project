@@ -1,5 +1,6 @@
 package com.unipi.atheodoridis.nfccardapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.unipi.atheodoridis.nfccardapp.ui.home.HomeFragment;
+import com.unipi.atheodoridis.nfccardapp.ui.mycard.MyCardFragment;
+import com.unipi.atheodoridis.nfccardapp.ui.settings.SettingsFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -99,9 +103,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
+            Intent intent = new Intent(this, HomeFragment.class);
+            startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_mycard) {
+            Intent intent = new Intent(this, MyCardFragment.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsFragment.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

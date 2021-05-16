@@ -20,16 +20,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NFCCardApp">
 
+
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
+            android:usesCleartextTraffic="true"
             android:theme="@style/Theme.NFCCardApp.NoActionBar"/>
 
         <activity
-            android:name=".SignInActivity" />
+            android:name=".SignInActivity"
+            android:usesCleartextTraffic="true"/>
 
         <activity
             android:name=".LogInActivity"
+            android:usesCleartextTraffic="true"
             android:theme="@style/Theme.NFCCardApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

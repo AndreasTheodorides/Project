@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "309410266102",
+    "project_id": "nfc-card-app-6ccec",
+    "storage_bucket": "nfc-card-app-6ccec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309410266102:android:00730ae9154d44fc3665d7",
+        "android_client_info": {
+          "package_name": "com.unipi.atheodoridis.nfccardapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309410266102-8e8ccgu6lsmmq4uuqa0g2ipoh4ok1rlj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unipi.atheodoridis.nfccardapp",
+            "certificate_hash": "ed3439c6d431c0e34d10d0a12d7aed1d66a9c2fb"
+          }
+        },
+        {
+          "client_id": "309410266102-hojnntq5gqvchq7kdonpubaqr6jpr29v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtG_m1t7xA0d2diu7nV-Td4HRwcyJlx3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309410266102-hojnntq5gqvchq7kdonpubaqr6jpr29v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
