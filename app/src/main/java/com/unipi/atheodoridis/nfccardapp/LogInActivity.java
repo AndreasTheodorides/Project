@@ -17,11 +17,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
     EditText editText1,editText2;
-    private FirebaseFirestore db;
+    private FirebaseDatabase db;
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     private static final int RC_SIGN_IN = 101;
@@ -34,7 +35,7 @@ public class LogInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
     @Override

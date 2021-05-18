@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
+    private FirebaseDatabase database;
     private ActivityProfileBinding binding;
 
     @Override
@@ -145,6 +147,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         return true;
     }
     public void init() {
+        database = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -152,6 +155,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     public void updateUI(){
         if (firebaseUser!=null){
+
             DocumentReference userRef= db.collection("users").document(firebaseUser.getUid());
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
