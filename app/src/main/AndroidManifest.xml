@@ -25,7 +25,8 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:usesCleartextTraffic="true"
-            android:theme="@style/Theme.NFCCardApp.NoActionBar"/>
+            android:theme="@style/Theme.NFCCardApp.NoActionBar"
+            />
 
         <activity
             android:name=".SignInActivity"

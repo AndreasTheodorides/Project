@@ -5,10 +5,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
+import com.unipi.atheodoridis.nfccardapp.model.UserModel;
 import com.unipi.atheodoridis.nfccardapp.ui.home.HomeFragment;
 import com.unipi.atheodoridis.nfccardapp.ui.mycard.MyCardFragment;
 import com.unipi.atheodoridis.nfccardapp.ui.settings.SettingsFragment;
@@ -16,6 +24,9 @@ import com.unipi.atheodoridis.nfccardapp.ui.settings.SettingsFragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,13 +35,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Objects;
+
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore db;
+    private ActivityProfileBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        //setContentView(R.layout.activity_profile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -59,6 +78,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        binding.navView.setNavigationItemSelectedListener(this);
+        binding.navView.setCheckedItem(R.id.nav_home);
+        init();
+        updateUI();
     }
     @Override
     public void onBackPressed() {
@@ -76,6 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /*
@@ -84,6 +108,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
          as you specify a parent activity in AndroidManifest.xml.
         */
         int id = item.getItemId();
+
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -103,19 +129,45 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-            Intent intent = new Intent(this, HomeFragment.class);
-            startActivity(intent);
             // Handle the camera action
-        } else if (id == R.id.nav_mycard) {
-            Intent intent = new Intent(this, MyCardFragment.class);
+            Intent intent = new Intent(this,HomeFragment.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsFragment.class);
+        } else if (id == R.id.nav_mycard) {
+            Intent intent = new Intent(this,MyCardFragment.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this,SettingsFragment.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void init() {
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+    }
+
+    public void updateUI(){
+        if (firebaseUser!=null){
+            DocumentReference userRef= db.collection("users").document(firebaseUser.getUid());
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    assert document != null;
+                    if(document.exists()){
+                        UserModel userModel=document.toObject(UserModel.class);
+                        View headerView = binding.navView.getHeaderView(0);
+                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
+                        textViewName.setText(Objects.requireNonNull(userModel).getAM());
+
+                        TextView textViewEmail = headerView.findViewById(R.id.textViewNavBar_Name);
+                        textViewEmail.setText(userModel.getFname());
+                    }
+                }
+            });
+        }
     }
 }
