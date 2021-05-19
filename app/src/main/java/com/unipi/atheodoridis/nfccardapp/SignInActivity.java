@@ -35,6 +35,7 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     ImageView imageView;
+    private static final int RC_SIGN_IN = 101;
 
 
     @Override
@@ -47,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
         editText4 = findViewById(R.id.editText4);
         editText5 = findViewById(R.id.editText5);
         database = FirebaseDatabase.getInstance();
-        db = FirebaseFirestore.getInstance();
+       // db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
     public void signIn(View view){
@@ -64,7 +65,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            startActivity(intent);
+
 
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             //System.out.println(email);
@@ -75,7 +76,8 @@ public class SignInActivity extends AppCompatActivity {
                             myRef.child("LastName").setValue(lname);
                             myRef.child("Email").setValue(email);
                             myRef.child("CardNumber").setValue("");
-                            db.collection("users").document(userId).set(userModel);
+                            startActivity(intent);
+                            //db.collection("users").document(userId).set(userModel);
 
 
 

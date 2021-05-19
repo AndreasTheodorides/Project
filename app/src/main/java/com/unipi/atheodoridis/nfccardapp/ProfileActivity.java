@@ -2,16 +2,21 @@ package com.unipi.atheodoridis.nfccardapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,7 +46,7 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseUser firebaseUser;
-    private FirebaseFirestore db;
+   // private FirebaseFirestore db;
     private FirebaseDatabase database;
     private ActivityProfileBinding binding;
 
@@ -130,21 +135,22 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         Fragment fragment = null;
         if (id == R.id.nav_home) {
             fragment = new HomeFragment();
-            setFragment(fragment, "HOME_FRAGMENT");
+            setFragment(fragment, "Home_Fragment");
 //            Intent intent = new Intent(this,HomeFragment.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_mycard) {
             fragment = new MyCardFragment();
-            setFragment(fragment, "MY_CARD_FRAGMENT");
+            setFragment(fragment, "My_card_fragment");
 //            Intent intent = new Intent(this,MyCardFragment.class);
 //            startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
             fragment = new SettingsFragment();
-            setFragment(fragment, "SETTINGS_FRAGMENT");
+            setFragment(fragment, "Settings_Fragment");
 //            Intent intent = new Intent(this,SettingsFragment.class);
 //            startActivity(intent);
         }
@@ -159,35 +165,56 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         //get fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //set new fragment in fragment_container (FrameLayout)
+        fragmentTransaction.replace(R.id.fragment_container_view_tag, fragment, tagName);
+        fragmentTransaction.commit();
 
     }
 
     public void init() {
         database = FirebaseDatabase.getInstance();
-        db = FirebaseFirestore.getInstance();
+        //db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
     }
 
     public void updateUI(){
         if (firebaseUser!=null){
-
-            DocumentReference userRef= db.collection("users").document(firebaseUser.getUid());
-            userRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    assert document != null;
-                    if(document.exists()){
-                        UserModel userModel=document.toObject(UserModel.class);
-                        View headerView = binding.navView.getHeaderView(0);
-                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
-                        textViewName.setText(Objects.requireNonNull(userModel).getAM());
-
-                        TextView textViewEmail = headerView.findViewById(R.id.textViewNavBar_Name);
-                        textViewEmail.setText(userModel.getFname());
-                    }
-                }
-            });
+            String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            DatabaseReference reference = database.getReference("users/" + userId);
+            System.out.println("Andreas------------ " + userId);
+//                reference.child("AM").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                        if (!task.isSuccessful()) {
+//                            System.out.println("Andreas------------ " + userId);
+//                        }
+//                        else {
+//                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+//                        }
+//                    }
+//                });
+//                    @Override
+//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                        System.out.println("Andreas------------ " + userId);
+//                        String am = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+//                        View headerView = binding.navView.getHeaderView(0);
+//                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
+//                        textViewName.setText(Objects.requireNonNull(am));
+//                        System.out.println(am);
+//                    }
+//                });
+//                reference.child("FirstName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                        String fname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+//                        View headerView = binding.navView.getHeaderView(0);
+//                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
+//                        textViewName.setText(Objects.requireNonNull(fname));
+//                        System.out.println(fname);
+//                    }
+//
+//                });
         }
     }
 }

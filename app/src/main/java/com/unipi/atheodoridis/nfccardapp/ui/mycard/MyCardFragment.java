@@ -37,6 +37,7 @@ import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class MyCardFragment extends Fragment {
@@ -53,15 +54,16 @@ public class MyCardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         checkCard();
-        //button = (Button) button.findViewById(R.id.button4);
-        imageView = (ImageView) imageView.findViewById(R.id.imageView3);
-        textView = (TextView) textView.findViewById(R.id.textView);
-        // View v = inflater.inflate(R.layout.fragment_mycard, container, false);
+        button = (Button) button.findViewById(R.id.button4);
 
-//
+         View v = inflater.inflate(R.layout.fragment_mycard, container, false);
+
+
         myCardViewModel =
                 new ViewModelProvider(this).get(MyCardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_mycard, container, false);
+        imageView = (ImageView) root.findViewById(R.id.imageView3);
+        textView = (TextView) root.findViewById(R.id.textView);
         button = (Button) root.findViewById(R.id.button4);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +99,7 @@ public class MyCardFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-                    String cardNum = String.valueOf(task.getResult().getValue());
+                    String cardNum = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
                     if (cardNum.equals("")){
                         textView.setVisibility(View.GONE);
                     }
