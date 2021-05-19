@@ -130,22 +130,38 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
         if (id == R.id.nav_home) {
-            // Handle the camera action
-            Intent intent = new Intent(this,HomeFragment.class);
-            startActivity(intent);
+            fragment = new HomeFragment();
+            setFragment(fragment, "HOME_FRAGMENT");
+//            Intent intent = new Intent(this,HomeFragment.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_mycard) {
-            Intent intent = new Intent(this,MyCardFragment.class);
-            startActivity(intent);
+            fragment = new MyCardFragment();
+            setFragment(fragment, "MY_CARD_FRAGMENT");
+//            Intent intent = new Intent(this,MyCardFragment.class);
+//            startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this,SettingsFragment.class);
-            startActivity(intent);
+            fragment = new SettingsFragment();
+            setFragment(fragment, "SETTINGS_FRAGMENT");
+//            Intent intent = new Intent(this,SettingsFragment.class);
+//            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void setFragment(Fragment fragment, String tagName)
+    {
+        //get current fragment manager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        //get fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+    }
+
     public void init() {
         database = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
