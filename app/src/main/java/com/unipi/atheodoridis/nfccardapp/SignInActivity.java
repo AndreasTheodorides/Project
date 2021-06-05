@@ -30,8 +30,8 @@ import java.util.Objects;
 
 public class SignInActivity extends AppCompatActivity {
     EditText editText1,editText2,editText3,editText4,editText5;
-    FirebaseFirestore db;
-    FirebaseDatabase database;
+
+    FirebaseDatabase db;
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     ImageView imageView;
@@ -47,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
         editText3 = findViewById(R.id.editText3);
         editText4 = findViewById(R.id.editText4);
         editText5 = findViewById(R.id.editText5);
-        database = FirebaseDatabase.getInstance();
+        db = FirebaseDatabase.getInstance();
        // db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
@@ -65,17 +65,15 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-
-
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            //System.out.println(email);
-                            UserModel userModel= new UserModel(am, fname, lname, email, "");
-                            DatabaseReference myRef = database.getReference("users/" + userId);
+                            DatabaseReference myRef = db.getReference("users/" + userId);
                             myRef.child("AM").setValue(am);
                             myRef.child("FirstName").setValue(fname);
                             myRef.child("LastName").setValue(lname);
                             myRef.child("Email").setValue(email);
-                            myRef.child("CardNumber").setValue("");
+                            String key = myRef.child("CardNumber").push().getKey();
+                            String cardNum = String.valueOf(key);
+                            myRef.child("CardNumber").setValue(cardNum);
                             startActivity(intent);
                             //db.collection("users").document(userId).set(userModel);
 

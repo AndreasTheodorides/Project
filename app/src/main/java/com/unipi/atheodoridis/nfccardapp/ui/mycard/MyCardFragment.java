@@ -1,6 +1,8 @@
 package com.unipi.atheodoridis.nfccardapp.ui.mycard;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.cardemulation.NfcFCardEmulation;
@@ -8,6 +10,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.unipi.atheodoridis.nfccardapp.ProfileActivity;
 import com.unipi.atheodoridis.nfccardapp.R;
 import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
+import com.unipi.atheodoridis.nfccardapp.ui.home.HomeFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,17 +50,18 @@ public class MyCardFragment extends Fragment {
     ImageView imageView;
     TextView textView;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase db;
+    FirebaseDatabase db;
     private ActivityProfileBinding binding;
+    SharedPreferences preferences;
 
     private MyCardViewModel myCardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        checkCard();
-        button = (Button) button.findViewById(R.id.button4);
+        //checkCard();
+//        button = (Button) button.findViewById(R.id.button4);
 
-         View v = inflater.inflate(R.layout.fragment_mycard, container, false);
+         //View v = inflater.inflate(R.layout.fragment_mycard, container, false);
 
 
         myCardViewModel =
@@ -68,7 +73,7 @@ public class MyCardFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                genCard();
+//                genCard();
             }
         });
 
@@ -82,39 +87,48 @@ public class MyCardFragment extends Fragment {
         return root;
     }
 
-    public void genCard() {
-        final int min = 100000000;
-        final int max = 999999999;
-        final int random = new Random().nextInt((max - min) + 1) + min;
-        String cardNum = String.valueOf(random);
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference myRef = db.getReference("users/" + userId);
-        myRef.child("CardNum").setValue(cardNum);
-    }
+//    public void genCard() {
+//
+//
+//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        db = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = db.getReference("users/" + userId);
+//        String key = db.getReference("users/" + userId).child("CardNumber").push().getKey();
+//        String cardNum = String.valueOf(key);
+//        myRef.child("CardNumber").setValue(cardNum);
+//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putString("CardNumber", cardNum);
+//        editor.apply();
+//       // PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("CardNumber", cardNum).apply();;
+//        //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        String test = sharedPref.getString("CardNumber","");
+//        System.out.println("makari" + test);
+//    }
 
-    public void checkCard(){
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ref = db.getReference("users/" + userId);
-        ref.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    String cardNum = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-                    if (cardNum.equals("")){
-                        textView.setVisibility(View.GONE);
-                    }
-                    //Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    String cardNum = String.valueOf(task.getResult().getValue());
-                    if (!cardNum.equals("")){
-                        button.setVisibility(View.GONE);
-                        imageView.setImageResource(R.drawable.card_person);
-                    }
-                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
-    }
+//    public void checkCard(){
+//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        DatabaseReference ref = db.getReference("users/" + userId);
+//        ref.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    String cardNum = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+//                    if (cardNum.equals("")){
+//                        textView.setVisibility(View.GONE);
+//                    }
+//                    //Log.e("firebase", "Error getting data", task.getException());
+//                }
+//                else {
+//                    String cardNum = String.valueOf(task.getResult().getValue());
+//                    if (!cardNum.equals("")){
+//                        button.setVisibility(View.GONE);
+//                        imageView.setImageResource(R.drawable.card_person);
+//                    }
+//                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
+//                }
+//            }
+//        });
+//    }
 
 }

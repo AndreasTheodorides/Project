@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
     EditText editText1,editText2;
-    private FirebaseDatabase db;
+    FirebaseDatabase db;
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     private static final int RC_SIGN_IN = 101;
