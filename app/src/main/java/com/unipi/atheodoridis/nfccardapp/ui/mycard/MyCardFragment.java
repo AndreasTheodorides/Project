@@ -48,7 +48,7 @@ public class MyCardFragment extends Fragment {
     private NfcAdapter adapter;
     Button button;
     ImageView imageView;
-    TextView textView;
+    TextView textView, am, fname, lname, email, cardnum;
     private FirebaseUser firebaseUser;
     FirebaseDatabase db;
     private ActivityProfileBinding binding;
@@ -69,6 +69,13 @@ public class MyCardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_mycard, container, false);
         imageView = (ImageView) root.findViewById(R.id.imageView3);
         textView = (TextView) root.findViewById(R.id.textView);
+        am = (TextView) root.findViewById(R.id.am1);
+        fname = (TextView) root.findViewById(R.id.fname1);
+        lname = (TextView) root.findViewById(R.id.lname1);
+        email = (TextView) root.findViewById(R.id.email1);
+        cardnum = (TextView) root.findViewById(R.id.cardnum1);
+        db = FirebaseDatabase.getInstance();
+        getInfo();
         //button = (Button) root.findViewById(R.id.button4);
 
 
@@ -81,6 +88,22 @@ public class MyCardFragment extends Fragment {
         return root;
     }
 
+    public void getInfo(){
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db.getReference("users/" + userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()){
+                   am.setText(task.getResult().child("AM").getValue().toString());
+                   fname.setText(task.getResult().child("FirstName").getValue().toString());
+                   lname.setText(task.getResult().child("LastName").getValue().toString());
+                   email.setText(task.getResult().child("Email").getValue().toString());
+                   cardnum.setText(task.getResult().child("CardNumber").getValue().toString());
+                }
+            }
+        });
+
+    }
 //    public void genCard() {
 //
 //

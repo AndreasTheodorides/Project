@@ -1,19 +1,25 @@
 package com.unipi.atheodoridis.nfccardapp.ui.home;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -117,11 +123,38 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             String msg = new String(message.getRecords()[0].getPayload());
             if (msg.equals("Ok")){
                 System.out.println("ola good");
+                alertBox();
             }
             //textView.setText(new String(message.getRecords()[0].getPayload()));
 
         } //else
             //textView.setText("Waiting for NDEF Message");
+    }
+
+    public void alertBox(){
+        Dialog builder = new Dialog(getActivity());
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //nothing;
+            }
+        });
+
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setImageResource(R.drawable.check);
+        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        builder.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                builder.dismiss();
+            }
+        }, 3000);   //3 seconds
     }
 
 
