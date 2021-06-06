@@ -27,7 +27,13 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:usesCleartextTraffic="true"
-            android:theme="@style/Theme.NFCCardApp.NoActionBar" />
+            android:theme="@style/Theme.NFCCardApp.NoActionBar" >
+            <intent-filter>
+            <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:mimeType="text/plain" />
+        </intent-filter>
+        </activity>
 
 
         <activity

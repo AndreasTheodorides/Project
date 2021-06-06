@@ -1,25 +1,20 @@
 package com.unipi.atheodoridis.nfccardapp.ui.home;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,24 +22,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.unipi.atheodoridis.nfccardapp.ProfileActivity;
 import com.unipi.atheodoridis.nfccardapp.R;
 import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Objects;
-
 public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNdefMessageCallback{
+//implements NfcAdapter.CreateNdefMessageCallback
 
-    private NfcAdapter adapter;
     Button button;
     TextView textView;
     ImageView imageView;
@@ -96,6 +81,9 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         return root;
     }
 
+
+
+
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -106,10 +94,35 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     }
 
     public void scanCard(){
-        mAdapter.setNdefPushMessageCallback(this, getActivity());
+       mAdapter.setNdefPushMessageCallback(this, getActivity());
+//        button.setOnClickListener(view -> new NdefFragment());
+//        mNdefFragment = (NdefFragment) getActivity().getSupportFragmentManager().findFragmentByTag(NdefFragment.TAG);
+//        if (mNdefFragment == null){
+//            mNdefFragment = NdefFragment.newInstance();
+//        }
+//        mNdefFragment.show(getActivity().getSupportFragmentManager(),NdefFragment.TAG);
     }
 
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getActivity().getIntent();
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            Parcelable[] rawMessages = intent.getParcelableArrayExtra(
+                    NfcAdapter.EXTRA_NDEF_MESSAGES);
+
+            NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
+            String msg = new String(message.getRecords()[0].getPayload());
+            if (msg.equals("Ok")){
+                System.out.println("ola good");
+            }
+            //textView.setText(new String(message.getRecords()[0].getPayload()));
+
+        } //else
+            //textView.setText("Waiting for NDEF Message");
+    }
 
 
 //    public void checkCard(){

@@ -31,7 +31,7 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseUser firebaseUser;
-
+    private boolean isDialogDisplayed = false;
     private FirebaseDatabase db;
     private ActivityProfileBinding binding;
     TextView textView;
@@ -59,10 +59,10 @@ public class ProfileActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle =
                 new ActionBarDrawerToggle(
-                        this, binding.drawerLayout, binding.toolbar.getRoot(),
+                        this, binding.root, binding.toolbar.getRoot(),
                         R.string.navigation_drawer_close,
                         R.string.navigation_drawer_close);
-        binding.drawerLayout.addDrawerListener(toggle);
+        binding.root.addDrawerListener(toggle);
         // Change drawer arrow icon
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.design_default_color_on_secondary));
         toggle.syncState();
@@ -78,8 +78,8 @@ public class ProfileActivity extends AppCompatActivity
     }
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (binding.root.isDrawerOpen(GravityCompat.START)) {
+            binding.root.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -123,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity
             setFragment(fragment, "FRAGMENT_HOME");
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.root);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -187,4 +187,5 @@ public class ProfileActivity extends AppCompatActivity
 //                });
         }
     }
+
 }

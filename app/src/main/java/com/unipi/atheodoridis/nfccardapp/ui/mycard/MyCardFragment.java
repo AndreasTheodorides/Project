@@ -69,13 +69,7 @@ public class MyCardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_mycard, container, false);
         imageView = (ImageView) root.findViewById(R.id.imageView3);
         textView = (TextView) root.findViewById(R.id.textView);
-        button = (Button) root.findViewById(R.id.button4);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                genCard();
-            }
-        });
+        //button = (Button) root.findViewById(R.id.button4);
 
 
         myCardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
