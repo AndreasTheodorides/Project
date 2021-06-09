@@ -5,20 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
     EditText editText1,editText2;
@@ -71,8 +67,8 @@ public class LogInActivity extends AppCompatActivity {
                 });
     }
 
-    public void signIn(View view){
-        Intent intent = new Intent(this,SignInActivity.class);
+    public void signUp(View view){
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 }

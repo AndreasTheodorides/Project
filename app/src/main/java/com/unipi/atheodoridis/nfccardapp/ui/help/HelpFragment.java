@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.unipi.atheodoridis.nfccardapp.R;
 
 public class HelpFragment extends Fragment {
-    public String prefLanguageKey;
+
 
     private HelpViewModel settingsViewModel;
 

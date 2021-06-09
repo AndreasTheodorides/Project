@@ -17,18 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.unipi.atheodoridis.nfccardapp.model.UserModel;
 
-import org.w3c.dom.Document;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-public class SignInActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     EditText editText1,editText2,editText3,editText4,editText5;
 
     FirebaseDatabase db;
@@ -41,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_sign_up);
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);
         editText3 = findViewById(R.id.editText3);
@@ -51,7 +41,7 @@ public class SignInActivity extends AppCompatActivity {
        // db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
-    public void signIn(View view){
+    public void signUp(View view){
         Intent intent = new Intent(this,ProfileActivity.class);
         String am = editText1.getText().toString();
         String fname = editText2.getText().toString();

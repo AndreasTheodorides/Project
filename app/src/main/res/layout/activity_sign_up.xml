@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity">
+    tools:context=".SignUpActivity">
 
     <Button
         android:id="@+id/button3"
@@ -14,8 +14,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="102dp"
         android:layout_marginBottom="109dp"
-        android:onClick="signIn"
-        android:text="Sign In"
+        android:onClick="signUp"
+        android:text="Sign up"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

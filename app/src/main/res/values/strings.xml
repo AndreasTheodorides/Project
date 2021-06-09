@@ -24,4 +24,8 @@
     <string name="language">Language:</string>
     <string name="scan_your_card">Scan your card</string>
     <string name="home_page_textview">Scan your card to get access to the room</string>
+    <string name="help_page_nav_menu_text">To get access to the other pages click here!</string>
+    <string name="help_page_scan">To Scan your Card click the button Scan your Card</string>
+    <string name="help_page_mycard">To see your Card Info click on the button My Card!!</string>
+    <string name="help_page_logout">To Log Out click on the button Log Out</string>
 </resources>
