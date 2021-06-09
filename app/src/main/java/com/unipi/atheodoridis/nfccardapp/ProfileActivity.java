@@ -33,12 +33,14 @@ import com.unipi.atheodoridis.nfccardapp.ui.help.HelpFragment;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Listener {
     private FirebaseUser firebaseUser;
     private boolean isDialogDisplayed = false;
     private FirebaseDatabase db;
     private ActivityProfileBinding binding;
     TextView textView;
+    private Boolean isSuccess = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,4 +196,14 @@ public class ProfileActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onDialogDisplayed() {
+        isDialogDisplayed = true;
+    }
+
+    @Override
+    public void onDialogDismissed() {
+        isDialogDisplayed = false;
+        isSuccess = false;
+    }
 }

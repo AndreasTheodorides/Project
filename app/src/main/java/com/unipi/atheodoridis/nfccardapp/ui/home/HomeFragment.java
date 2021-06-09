@@ -1,25 +1,19 @@
 package com.unipi.atheodoridis.nfccardapp.ui.home;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.unipi.atheodoridis.nfccardapp.SuccessFragment;
 import com.unipi.atheodoridis.nfccardapp.R;
+import com.unipi.atheodoridis.nfccardapp.ScanFragment;
 import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
 
 public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNdefMessageCallback{
@@ -40,12 +36,15 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     TextView textView;
     ImageView imageView;
     private FirebaseUser firebaseUser;
+    private SuccessFragment successFragment;
+    private ScanFragment scanFragment;
     FirebaseDatabase db;
     private ActivityProfileBinding binding;
     private NfcAdapter mNfcAdapter;
     String dbcardNum ="", cardNum= "";
     private boolean isDialogDisplayed = false;
     public static final String TAG = HomeFragment.class.getSimpleName();
+    private Boolean isSuccess = false;
 
     public static HomeFragment newInstance() {
 
@@ -100,7 +99,10 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     }
 
     public void scanCard(){
+       // alertBoxCard();
+        showScanFragment();
        mAdapter.setNdefPushMessageCallback(this, getActivity());
+
 //        button.setOnClickListener(view -> new NdefFragment());
 //        mNdefFragment = (NdefFragment) getActivity().getSupportFragmentManager().findFragmentByTag(NdefFragment.TAG);
 //        if (mNdefFragment == null){
@@ -123,7 +125,8 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             String msg = new String(message.getRecords()[0].getPayload());
             if (msg.equals("Ok")){
                 System.out.println("ola good");
-                alertBox();
+                showSuccessFragment();
+               // alertBox();
             }
             //textView.setText(new String(message.getRecords()[0].getPayload()));
 
@@ -131,32 +134,74 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             //textView.setText("Waiting for NDEF Message");
     }
 
-    public void alertBox(){
-        Dialog builder = new Dialog(getActivity());
-        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.getWindow().setBackgroundDrawable(
-                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                //nothing;
-            }
-        });
+//    public void alertBox(){
+//        Dialog builder = new Dialog(getActivity());
+//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.getWindow().setBackgroundDrawable(
+//                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//                //nothing;
+//            }
+//        });
+//
+//        ImageView imageView = new ImageView(getActivity());
+//        imageView.setImageResource(R.drawable.check);
+//        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+//        builder.show();
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                builder.dismiss();
+//            }
+//        }, 3000);   //3 seconds
+//    }
+//
+//    public void alertBoxCard(){
+//        Dialog builder = new Dialog(getActivity());
+//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.getWindow().setBackgroundDrawable(
+//                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//                //nothing;
+//            }
+//        });
+//
+//        ImageView imageView = new ImageView(getActivity());
+//        imageView.setImageResource(R.drawable.id_card__2_);
+//        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+//        builder.show();
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                builder.dismiss();
+//            }
+//        }, 3000);
+//    }
 
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setImageResource(R.drawable.check);
-        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        builder.show();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                builder.dismiss();
-            }
-        }, 3000);   //3 seconds
+    public void showSuccessFragment (){
+        isSuccess = true;
+        successFragment = (SuccessFragment) getActivity().getSupportFragmentManager().findFragmentByTag(SuccessFragment.TAG);
+        if (successFragment == null){
+            successFragment = SuccessFragment.newInstance();
+        }
+        successFragment.show(getActivity().getSupportFragmentManager(), SuccessFragment.TAG);
     }
 
+    public void showScanFragment (){
+        scanFragment = (ScanFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScanFragment.TAG);
+        if (successFragment == null){
+            scanFragment = ScanFragment.newInstance();
+        }
+        scanFragment.show(getActivity().getSupportFragmentManager(),ScanFragment.TAG);
+    }
 
 //    public void checkCard(){
 //        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
