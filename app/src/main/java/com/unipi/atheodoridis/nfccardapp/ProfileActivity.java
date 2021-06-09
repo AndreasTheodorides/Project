@@ -1,6 +1,7 @@
 package com.unipi.atheodoridis.nfccardapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -16,15 +17,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
 import com.unipi.atheodoridis.nfccardapp.ui.home.HomeFragment;
 import com.unipi.atheodoridis.nfccardapp.ui.mycard.MyCardFragment;
-import com.unipi.atheodoridis.nfccardapp.ui.settings.SettingsFragment;
+import com.unipi.atheodoridis.nfccardapp.ui.help.HelpFragment;
 
 import java.util.Objects;
 
@@ -105,11 +109,11 @@ public class ProfileActivity extends AppCompatActivity
             setFragment(fragment, "FRAGMENT_MY_CARD");
             textView.setText("My Card");
         }
-        else if (id == R.id.nav_settings)
+        else if (id == R.id.nav_help)
         {
-            fragment = new SettingsFragment();
-            setFragment(fragment, "FRAGMENT_SETTINGS");
-            textView.setText("Settings");
+            fragment = new HelpFragment();
+            setFragment(fragment, "FRAGMENT_HELP");
+            textView.setText("Help");
         }
         else if (id == R.id.nav_exit)
         {
@@ -153,38 +157,40 @@ public class ProfileActivity extends AppCompatActivity
             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             DatabaseReference reference = db.getReference("users/" + userId);
             System.out.println("Andreas------------ " + userId);
-//                reference.child("AM").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                        if (!task.isSuccessful()) {
-//                            System.out.println("Andreas------------ " + userId);
-//                        }
-//                        else {
-//                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
-//                        }
-//                    }
-//                });
-//                    @Override
-//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                        System.out.println("Andreas------------ " + userId);
-//                        String am = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-//                        View headerView = binding.navView.getHeaderView(0);
-//                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
-//                        textViewName.setText(Objects.requireNonNull(am));
-//                        System.out.println(am);
-//                    }
-//                });
-//                reference.child("FirstName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                        String fname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-//                        View headerView = binding.navView.getHeaderView(0);
-//                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
-//                        textViewName.setText(Objects.requireNonNull(fname));
-//                        System.out.println(fname);
-//                    }
-//
-//                });
+                reference.child("AM").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String am =String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+                            View headerView = binding.navView.getHeaderView(0);
+                            TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
+                            textViewName.setText(Objects.requireNonNull(am));
+                            System.out.println("Andreas------------ " + userId);
+                        }
+                        else {
+                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                        }
+                    }
+                });
+                reference.child("FirstName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        String fname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+                        reference.child("LastName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                String lname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+                                View headerView = binding.navView.getHeaderView(0);
+                                TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
+                                textViewName.setText(Objects.requireNonNull(fname+" "+lname));
+                                System.out.println(fname);
+                            }
+                        });
+
+
+                    }
+
+                });
         }
     }
 

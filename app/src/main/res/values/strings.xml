@@ -16,4 +16,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scan_card_mycard_page">You can scan your card in the home page!!</string>
+    <string name="a_m">A.M.:</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="email">Email:</string>
+    <string name="card_number">Card Number:</string>
+    <string name="language">Language:</string>
+    <string name="scan_your_card">Scan your card</string>
+    <string name="home_page_textview">Scan your card to get access to the room</string>
 </resources>

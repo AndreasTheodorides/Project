@@ -1,14 +1,14 @@
-package com.unipi.atheodoridis.nfccardapp.ui.settings;
+package com.unipi.atheodoridis.nfccardapp.ui.help;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class HelpViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SettingsViewModel() {
+    public HelpViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is settings fragment");
     }

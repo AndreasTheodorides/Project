@@ -52,31 +52,31 @@
                 android:id="@+id/am"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Αριθμός Μητρώου: " />
+                android:text="@string/a_m" />
 
             <TextView
                 android:id="@+id/fname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Όνομα: " />
+                android:text="@string/first_name" />
 
             <TextView
                 android:id="@+id/lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Επίθετο: " />
+                android:text="@string/last_name" />
 
             <TextView
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email: " />
+                android:text="@string/email" />
 
             <TextView
                 android:id="@+id/cardnum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Αριθμός Κάρτας: " />
+                android:text="@string/card_number" />
         </LinearLayout>
 
         <LinearLayout

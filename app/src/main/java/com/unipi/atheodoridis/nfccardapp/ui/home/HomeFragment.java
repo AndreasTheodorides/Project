@@ -146,8 +146,8 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         ImageView imageView = new ImageView(getActivity());
         imageView.setImageResource(R.drawable.check);
         builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
         builder.show();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
