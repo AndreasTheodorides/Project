@@ -1,6 +1,7 @@
 package com.unipi.atheodoridis.nfccardapp;
 
 import android.app.Dialog;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -26,6 +27,9 @@ public class ScanFragment extends DialogFragment {
     public static ScanFragment newInstance() {
 
         return new ScanFragment();
+    }
+    public ScanFragment() {
+        // Required empty public constructor
     }
 
     @Nullable

@@ -22,12 +22,22 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.unipi.atheodoridis.nfccardapp.SuccessFragment;
 import com.unipi.atheodoridis.nfccardapp.R;
 import com.unipi.atheodoridis.nfccardapp.ScanFragment;
 import com.unipi.atheodoridis.nfccardapp.databinding.ActivityProfileBinding;
+
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Objects;
 
 public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNdefMessageCallback{
 //implements NfcAdapter.CreateNdefMessageCallback
@@ -41,10 +51,13 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     FirebaseDatabase db;
     private ActivityProfileBinding binding;
     private NfcAdapter mNfcAdapter;
-    String dbcardNum ="", cardNum= "";
+    String token ="", cardNum= "";
     private boolean isDialogDisplayed = false;
     public static final String TAG = HomeFragment.class.getSimpleName();
     private Boolean isSuccess = false;
+    private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
+
 
     public static HomeFragment newInstance() {
 
@@ -86,19 +99,43 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         return root;
     }
 
+    public static String generateNewToken() {
+        byte[] randomBytes = new byte[12];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
 
+    }
 
+    boolean waitingNdefMessage = false;
 
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String message = sharedPref.getString("CardNumber","");
-        NdefRecord ndefRecord = NdefRecord.createMime("text/plain", message.getBytes());
-        NdefMessage ndefMessage = new NdefMessage(ndefRecord);
-        return ndefMessage;
+        if (!waitingNdefMessage) {
+            token = generateNewToken();
+            waitingNdefMessage = true;
+
+            System.out.println("the token"+token);
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DatabaseReference myRef = db.getReference("users/" + userId);
+            myRef.child("Token").setValue(token);
+//        myRef.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                DataSnapshot snapshot = task.getResult();
+//                dbcardNum = snapshot.getValue().toString();
+//            }
+//        });
+//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        String message = sharedPref.getString("CardNumber","");
+            NdefRecord ndefRecord = NdefRecord.createMime("text/plain", token.getBytes());
+            NdefMessage ndefMessage = new NdefMessage(ndefRecord);
+            return ndefMessage;
+        }
+        return null;
     }
 
     public void scanCard(){
+
        // alertBoxCard();
         showScanFragment();
        mAdapter.setNdefPushMessageCallback(this, getActivity());
@@ -124,6 +161,7 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
             String msg = new String(message.getRecords()[0].getPayload());
             if (msg.equals("Ok")){
+                waitingNdefMessage = false;
                 System.out.println("ola good");
                 showSuccessFragment();
                // alertBox();
@@ -197,7 +235,7 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
 
     public void showScanFragment (){
         scanFragment = (ScanFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScanFragment.TAG);
-        if (successFragment == null){
+        if (scanFragment == null){
             scanFragment = ScanFragment.newInstance();
         }
         scanFragment.show(getActivity().getSupportFragmentManager(),ScanFragment.TAG);

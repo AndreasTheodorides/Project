@@ -3,7 +3,9 @@ package com.unipi.atheodoridis.nfccardapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -61,9 +63,13 @@ public class SignUpActivity extends AppCompatActivity {
                             myRef.child("FirstName").setValue(fname);
                             myRef.child("LastName").setValue(lname);
                             myRef.child("Email").setValue(email);
-                            String key = myRef.child("CardNumber").push().getKey();
-                            String cardNum = String.valueOf(key);
-                            myRef.child("CardNumber").setValue(cardNum);
+                            myRef.child("CardNumber").push().getKey();
+//                            String cardNum = String.valueOf(key);
+//                            myRef.child("CardNumber").setValue(cardNum);
+//                            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = sharedPref.edit();
+//                            editor.putString("CardNumber", cardNum);
+//                            editor.apply();
                             startActivity(intent);
                             //db.collection("users").document(userId).set(userModel);
 
