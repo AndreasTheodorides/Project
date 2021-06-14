@@ -40,7 +40,6 @@ import java.util.Base64;
 import java.util.Objects;
 
 public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNdefMessageCallback{
-//implements NfcAdapter.CreateNdefMessageCallback
 
     Button button;
     TextView textView;
@@ -89,11 +88,10 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
                 scanCard();
             }
         });
-       // final TextView textView = root.findViewById(R.id.text_home);
+
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //textView.setText(s);
             }
         });
         return root;
@@ -118,15 +116,6 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference myRef = db.getReference("users/" + userId);
             myRef.child("Token").setValue(token);
-//        myRef.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                DataSnapshot snapshot = task.getResult();
-//                dbcardNum = snapshot.getValue().toString();
-//            }
-//        });
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        String message = sharedPref.getString("CardNumber","");
             NdefRecord ndefRecord = NdefRecord.createMime("text/plain", token.getBytes());
             NdefMessage ndefMessage = new NdefMessage(ndefRecord);
             return ndefMessage;
@@ -135,17 +124,8 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     }
 
     public void scanCard(){
-
-       // alertBoxCard();
         showScanFragment();
        mAdapter.setNdefPushMessageCallback(this, getActivity());
-
-//        button.setOnClickListener(view -> new NdefFragment());
-//        mNdefFragment = (NdefFragment) getActivity().getSupportFragmentManager().findFragmentByTag(NdefFragment.TAG);
-//        if (mNdefFragment == null){
-//            mNdefFragment = NdefFragment.newInstance();
-//        }
-//        mNdefFragment.show(getActivity().getSupportFragmentManager(),NdefFragment.TAG);
     }
 
 
@@ -164,65 +144,9 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
                 waitingNdefMessage = false;
                 System.out.println("ola good");
                 showSuccessFragment();
-               // alertBox();
             }
-            //textView.setText(new String(message.getRecords()[0].getPayload()));
-
-        } //else
-            //textView.setText("Waiting for NDEF Message");
+        }
     }
-
-//    public void alertBox(){
-//        Dialog builder = new Dialog(getActivity());
-//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        builder.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialogInterface) {
-//                //nothing;
-//            }
-//        });
-//
-//        ImageView imageView = new ImageView(getActivity());
-//        imageView.setImageResource(R.drawable.check);
-//        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
-//        builder.show();
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                builder.dismiss();
-//            }
-//        }, 3000);   //3 seconds
-//    }
-//
-//    public void alertBoxCard(){
-//        Dialog builder = new Dialog(getActivity());
-//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        builder.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialogInterface) {
-//                //nothing;
-//            }
-//        });
-//
-//        ImageView imageView = new ImageView(getActivity());
-//        imageView.setImageResource(R.drawable.id_card__2_);
-//        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
-//        builder.show();
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                builder.dismiss();
-//            }
-//        }, 3000);
-//    }
 
     public void showSuccessFragment (){
         isSuccess = true;
@@ -240,34 +164,4 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         }
         scanFragment.show(getActivity().getSupportFragmentManager(),ScanFragment.TAG);
     }
-
-//    public void checkCard(){
-//        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-//        System.out.println(userId);
-//        DatabaseReference ref = db.getReference("users").child(userId);
-//        ref.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                DataSnapshot snapshot = task.getResult();
-//                dbcardNum = snapshot.getValue().toString();
-//                if (task.isSuccessful()) {
-//                    if (dbcardNum.equals("")){
-//                        button.setVisibility(View.GONE);
-//                    }
-//                    //Log.e("firebase", "Error getting data", task.getException());
-//                }
-//                else {
-//                    if (!dbcardNum.equals("")){
-//                        textView.setText("Scan your card to get access to the room");
-//                        imageView.setImageResource(R.drawable.access);
-//                        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPref.edit();
-//                        editor.putString("CardNumber", dbcardNum);
-//                        editor.apply();
-//                    }
-//                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
-//                }
-//            }
-//        });
-//    }
 }

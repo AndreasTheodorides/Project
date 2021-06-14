@@ -119,8 +119,9 @@ public class ProfileActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_exit)
         {
-            FirebaseAuth.getInstance().signOut();
+
             this.finish();
+            FirebaseAuth.getInstance().signOut();
             //System.exit(0);
             return false;
         }

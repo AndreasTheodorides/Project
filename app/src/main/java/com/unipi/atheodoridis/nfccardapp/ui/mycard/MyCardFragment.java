@@ -104,48 +104,5 @@ public class MyCardFragment extends Fragment {
         });
 
     }
-//    public void genCard() {
-//
-//
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        db = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = db.getReference("users/" + userId);
-//        String key = db.getReference("users/" + userId).child("CardNumber").push().getKey();
-//        String cardNum = String.valueOf(key);
-//        myRef.child("CardNumber").setValue(cardNum);
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putString("CardNumber", cardNum);
-//        editor.apply();
-//       // PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("CardNumber", cardNum).apply();;
-//        //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        String test = sharedPref.getString("CardNumber","");
-//        System.out.println("makari" + test);
-//    }
-
-//    public void checkCard(){
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        DatabaseReference ref = db.getReference("users/" + userId);
-//        ref.child("CardNumber").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                if (!task.isSuccessful()) {
-//                    String cardNum = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-//                    if (cardNum.equals("")){
-//                        textView.setVisibility(View.GONE);
-//                    }
-//                    //Log.e("firebase", "Error getting data", task.getException());
-//                }
-//                else {
-//                    String cardNum = String.valueOf(task.getResult().getValue());
-//                    if (!cardNum.equals("")){
-//                        button.setVisibility(View.GONE);
-//                        imageView.setImageResource(R.drawable.card_person);
-//                    }
-//                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
-//                }
-//            }
-//        });
-//    }
 
 }

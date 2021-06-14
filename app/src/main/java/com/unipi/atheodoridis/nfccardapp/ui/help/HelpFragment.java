@@ -16,21 +16,20 @@ import com.unipi.atheodoridis.nfccardapp.R;
 public class HelpFragment extends Fragment {
 
 
-    private HelpViewModel settingsViewModel;
+    private HelpViewModel helpViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        settingsViewModel =
+        helpViewModel =
                 new ViewModelProvider(this).get(HelpViewModel.class);
         View root = inflater.inflate(R.layout.fragment_help, container, false);
 
-        settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        helpViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 
             }
         });
         return root;
-       // prefDarkModeKey = ;
     }
 }
