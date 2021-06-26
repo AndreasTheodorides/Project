@@ -40,7 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
         editText4 = findViewById(R.id.editText4);
         editText5 = findViewById(R.id.editText5);
         db = FirebaseDatabase.getInstance();
-       // db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
     public void signUp(View view){
@@ -49,7 +48,6 @@ public class SignUpActivity extends AppCompatActivity {
         String fname = editText2.getText().toString();
         String lname = editText3.getText().toString();
         String email = editText4.getText().toString();
-       // String email = editText4.toString();
         String Password = editText5.getText().toString();
         //dimiourgia neou xristi stin vasi firebase
         mAuth.createUserWithEmailAndPassword(email, Password)
@@ -63,18 +61,9 @@ public class SignUpActivity extends AppCompatActivity {
                             myRef.child("FirstName").setValue(fname);
                             myRef.child("LastName").setValue(lname);
                             myRef.child("Email").setValue(email);
+                            myRef.child("IsAdmin").setValue("False");
                             myRef.child("CardNumber").push().getKey();
-//                            String cardNum = String.valueOf(key);
-//                            myRef.child("CardNumber").setValue(cardNum);
-//                            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor editor = sharedPref.edit();
-//                            editor.putString("CardNumber", cardNum);
-//                            editor.apply();
                             startActivity(intent);
-                            //db.collection("users").document(userId).set(userModel);
-
-
-
                             Toast.makeText(getApplicationContext(),"Sign in Success!",Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();

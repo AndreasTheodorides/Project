@@ -58,12 +58,6 @@ public class MyCardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //checkCard();
-//        button = (Button) button.findViewById(R.id.button4);
-
-         //View v = inflater.inflate(R.layout.fragment_mycard, container, false);
-
-
         myCardViewModel =
                 new ViewModelProvider(this).get(MyCardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_mycard, container, false);
@@ -76,9 +70,6 @@ public class MyCardFragment extends Fragment {
         cardnum = (TextView) root.findViewById(R.id.cardnum1);
         db = FirebaseDatabase.getInstance();
         getInfo();
-        //button = (Button) root.findViewById(R.id.button4);
-
-
         myCardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

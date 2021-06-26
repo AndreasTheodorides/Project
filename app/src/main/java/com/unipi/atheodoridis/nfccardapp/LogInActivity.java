@@ -32,20 +32,13 @@ public class LogInActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);
         db = FirebaseDatabase.getInstance();
-
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
             finish();
         }
+
     }
-
-
 
     public void logIn(View view){
         Intent intent = new Intent(this,ProfileActivity.class);
@@ -69,6 +62,11 @@ public class LogInActivity extends AppCompatActivity {
 
     public void signUp(View view){
         Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    public void forgotPassword(View view){
+        Intent intent = new Intent(this, ForgotPassActivity.class);
         startActivity(intent);
     }
 }

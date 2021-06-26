@@ -44,14 +44,10 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
     Button button;
     TextView textView;
     ImageView imageView;
-    private FirebaseUser firebaseUser;
     private SuccessFragment successFragment;
     private ScanFragment scanFragment;
     FirebaseDatabase db;
-    private ActivityProfileBinding binding;
-    private NfcAdapter mNfcAdapter;
     String token ="", cardNum= "";
-    private boolean isDialogDisplayed = false;
     public static final String TAG = HomeFragment.class.getSimpleName();
     private Boolean isSuccess = false;
     private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
@@ -81,14 +77,12 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         textView = (TextView) root.findViewById(R.id.textView2);
         button = (Button) root.findViewById(R.id.button5);
         mAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-        //checkCard();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scanCard();
             }
         });
-
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -111,8 +105,6 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
         if (!waitingNdefMessage) {
             token = generateNewToken();
             waitingNdefMessage = true;
-
-            System.out.println("the token"+token);
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference myRef = db.getReference("users/" + userId);
             myRef.child("Token").setValue(token);
@@ -142,7 +134,6 @@ public class HomeFragment extends DialogFragment implements NfcAdapter.CreateNde
             String msg = new String(message.getRecords()[0].getPayload());
             if (msg.equals("Ok")){
                 waitingNdefMessage = false;
-                System.out.println("ola good");
                 showSuccessFragment();
             }
         }

@@ -1,5 +1,7 @@
 package com.unipi.atheodoridis.nfccardapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,17 +46,13 @@ public class ProfileActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_profile);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         init();
-        updateUI(); // Update UI with user's info.
         textView = findViewById(R.id.textViewToolbar);
-
         //setContentView(R.layout.activity_profile);
         setSupportActionBar(binding.toolbar.getRoot());
         Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -80,8 +78,8 @@ public class ProfileActivity extends AppCompatActivity
         HomeFragment fragmentDefault = new HomeFragment();
         setFragment(fragmentDefault, "FRAGMENT_HOME");
         textView.setText("Home");
-
     }
+
     @Override
     public void onBackPressed() {
         if (binding.root.isDrawerOpen(GravityCompat.START)) {
@@ -95,7 +93,6 @@ public class ProfileActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         Fragment fragment = null;
         if (id == R.id.nav_home)
         {
@@ -119,10 +116,9 @@ public class ProfileActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_exit)
         {
-
-            this.finish();
             FirebaseAuth.getInstance().signOut();
             //System.exit(0);
+            this.finish();
             return false;
         }
 
@@ -151,16 +147,15 @@ public class ProfileActivity extends AppCompatActivity
 
     public void init() {
         db = FirebaseDatabase.getInstance();
-        //db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        updateUI(); // Update UI with user's info.
     }
 
     public void updateUI(){
         if (firebaseUser!=null){
             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             DatabaseReference reference = db.getReference("users/" + userId);
-            System.out.println("Andreas------------ " + userId);
                 reference.child("AM").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -169,7 +164,6 @@ public class ProfileActivity extends AppCompatActivity
                             View headerView = binding.navView.getHeaderView(0);
                             TextView textViewName = headerView.findViewById(R.id.textViewNavBar_AM);
                             textViewName.setText(Objects.requireNonNull(am));
-                            System.out.println("Andreas------------ " + userId);
                         }
                         else {
                             Log.d("firebase", String.valueOf(task.getResult().getValue()));
@@ -190,11 +184,12 @@ public class ProfileActivity extends AppCompatActivity
                                 System.out.println(fname);
                             }
                         });
-
-
                     }
-
                 });
+        }else{
+            Intent intent = new Intent(this,LogInActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
