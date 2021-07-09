@@ -28,4 +28,8 @@
     <string name="help_page_scan">To Scan your Card click the button Scan your Card</string>
     <string name="help_page_mycard">To see your Card Info click on the button My Card!!</string>
     <string name="help_page_logout">To Log Out click on the button Log Out</string>
+    <string name="university">University:</string>
+    <string name="department">Department:</string>
+    <string name="year">Year:</string>
+    <string name="full_name">Full Name:</string>
 </resources>

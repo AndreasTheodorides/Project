@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText editText1,editText2,editText3,editText4,editText5;
+    EditText editText1,editText2,editText3,editText4,editText5,editText6,editText7;
 
     FirebaseDatabase db;
     private FirebaseAuth mAuth;
@@ -39,16 +39,20 @@ public class SignUpActivity extends AppCompatActivity {
         editText3 = findViewById(R.id.editText3);
         editText4 = findViewById(R.id.editText4);
         editText5 = findViewById(R.id.editText5);
+        editText6 = findViewById(R.id.editText6);
+        editText7 = findViewById(R.id.editText7);
         db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
     public void signUp(View view){
         Intent intent = new Intent(this,ProfileActivity.class);
         String am = editText1.getText().toString();
-        String fname = editText2.getText().toString();
-        String lname = editText3.getText().toString();
-        String email = editText4.getText().toString();
-        String Password = editText5.getText().toString();
+        String fullname = editText2.getText().toString();
+        String email = editText3.getText().toString();
+        String Password = editText4.getText().toString();
+        String uni = editText5.getText().toString();
+        String dep = editText6.getText().toString();
+        String date = editText7.getText().toString();
         //dimiourgia neou xristi stin vasi firebase
         mAuth.createUserWithEmailAndPassword(email, Password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -58,13 +62,15 @@ public class SignUpActivity extends AppCompatActivity {
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             DatabaseReference myRef = db.getReference("users/" + userId);
                             myRef.child("AM").setValue(am);
-                            myRef.child("FirstName").setValue(fname);
-                            myRef.child("LastName").setValue(lname);
+                            myRef.child("FullName").setValue(fullname);
                             myRef.child("Email").setValue(email);
-                            myRef.child("IsAdmin").setValue("False");
-                            myRef.child("CardNumber").push().getKey();
+                            myRef.child("University").setValue(uni);
+                            myRef.child("Department").setValue(dep);
+                            myRef.child("Registration Date").setValue(date);
+                            String key =  myRef.child("CardNumber").push().getKey();
+                            myRef.child("CardNumber").setValue(key);
                             startActivity(intent);
-                            Toast.makeText(getApplicationContext(),"Sign in Success!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Sign up Success!",Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
                             System.out.println(task.getException().getMessage());

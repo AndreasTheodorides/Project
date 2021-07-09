@@ -28,7 +28,7 @@ EditText editText;
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"We send your password to the email you wrote!!",Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(),"Check your email to reset your password",Toast.LENGTH_SHORT);
                         }
                     }
                 });

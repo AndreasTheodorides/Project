@@ -48,7 +48,7 @@ public class MyCardFragment extends Fragment {
     private NfcAdapter adapter;
     Button button;
     ImageView imageView;
-    TextView textView, am, fname, lname, email, cardnum;
+    TextView textView, am, fname, email, cardnum, uni, dep, year;
     private FirebaseUser firebaseUser;
     FirebaseDatabase db;
     private ActivityProfileBinding binding;
@@ -65,8 +65,10 @@ public class MyCardFragment extends Fragment {
         textView = (TextView) root.findViewById(R.id.textView);
         am = (TextView) root.findViewById(R.id.am1);
         fname = (TextView) root.findViewById(R.id.fname1);
-        lname = (TextView) root.findViewById(R.id.lname1);
         email = (TextView) root.findViewById(R.id.email1);
+        uni = (TextView) root.findViewById(R.id.uni1);
+        dep = (TextView) root.findViewById(R.id.dep1);
+        year = (TextView) root.findViewById(R.id.year1);
         cardnum = (TextView) root.findViewById(R.id.cardnum1);
         db = FirebaseDatabase.getInstance();
         getInfo();
@@ -87,9 +89,11 @@ public class MyCardFragment extends Fragment {
                 if (task.isSuccessful()){
                    am.setText(task.getResult().child("AM").getValue().toString());
                    fname.setText(task.getResult().child("FirstName").getValue().toString());
-                   lname.setText(task.getResult().child("LastName").getValue().toString());
                    email.setText(task.getResult().child("Email").getValue().toString());
                    cardnum.setText(task.getResult().child("CardNumber").getValue().toString());
+                   uni.setText(task.getResult().child("University").getValue().toString());
+                   dep.setText(task.getResult().child("Department").getValue().toString());
+                   year.setText(task.getResult().child("Registration Date").getValue().toString());
                 }
             }
         });
