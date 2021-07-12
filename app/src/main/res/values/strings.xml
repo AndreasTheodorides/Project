@@ -32,4 +32,6 @@
     <string name="department">Department:</string>
     <string name="year">Year:</string>
     <string name="full_name">Full Name:</string>
+    <string name="registration_year">Registration Year:</string>
+    <string name="expiration_year">Expiration Year:</string>
 </resources>

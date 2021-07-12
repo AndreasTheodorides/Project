@@ -170,20 +170,14 @@ public class ProfileActivity extends AppCompatActivity
                         }
                     }
                 });
-                reference.child("FirstName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                reference.child("Full Name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         String fname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-                        reference.child("LastName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                String lname = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-                                View headerView = binding.navView.getHeaderView(0);
-                                TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
-                                textViewName.setText(Objects.requireNonNull(fname+" "+lname));
-                                System.out.println(fname);
-                            }
-                        });
+                        View headerView = binding.navView.getHeaderView(0);
+                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
+                        textViewName.setText(Objects.requireNonNull(fname));
+                        System.out.println(fname);
                     }
                 });
         }else{
